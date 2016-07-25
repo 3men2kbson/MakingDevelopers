@@ -4,6 +4,15 @@ import livereload from 'gulp-livereload';
 import nodemon from 'gulp-nodemon';
 import notify from 'gulp-notify';
 import stylus from 'gulp-stylus';
+import mocha from 'gulp-mocha';
+
+// Mocha task
+gulp.task('mocha', () => {
+  return gulp.src([
+    'test/**/*.js'
+  ])
+  .pipe(mocha());
+});
 
 // Linter task
 gulp.task('eslint', () => {
