@@ -7,7 +7,7 @@ import stylus from 'gulp-stylus';
 import mocha from 'gulp-mocha';
 
 // Mocha task
-gulp.task('mocha', () => {
+gulp.task('test', () => {
   return gulp.src([
     'test/**/*.js'
   ])
@@ -15,7 +15,7 @@ gulp.task('mocha', () => {
 });
 
 // Linter task
-gulp.task('eslint', () => {
+gulp.task('analyze', () => {
   return gulp.src([
     'src/**/*.js',
     '!src/public/bower_components/**/*.js'
