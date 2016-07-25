@@ -1,13 +1,13 @@
 import './../globalTest';
 import utils from '../../src/lib/utils';
 
-describe('utils', () => {
+describe('@Utils', () => {
   it('should be an object', () => {
     assert.typeOf(utils, 'Object', 'utils should be an object');
   });
 
   // Date functions
-  describe('Date', () => {
+  describe('@Date', () => {
     describe('#day', () => {
       it('should be a function', () => {
         assert.typeOf(utils.Date.day, 'function', 'day should be a function');
@@ -61,7 +61,7 @@ describe('utils', () => {
   });
 
   // Device functions
-  describe('Device', () => {
+  describe('@Device', () => {
     describe('#isDesktop', () => {
       it('should be a function', () => {
         assert.typeOf(utils.Device.isDesktop, 'function', 'isDesktop should be a function');
@@ -82,7 +82,7 @@ describe('utils', () => {
   });
 
   // Object functions
-  describe('Object', () => {
+  describe('@Object', () => {
     describe('#buildJson', () => {
       it('should be a function', () => {
         assert.typeOf(utils.Object.buildJson, 'function', 'buildJson should be a function');
@@ -138,7 +138,7 @@ describe('utils', () => {
   });
 
   // Type functions
-  describe('Type', () => {
+  describe('@Type', () => {
     describe('#isArray', () => {
       it('should be a function', () => {
         assert.typeOf(utils.Type.isArray, 'function', 'isArray should be a function');
@@ -201,7 +201,7 @@ describe('utils', () => {
   });
 
   // Security functions
-  describe('Security', () => {
+  describe('@Security', () => {
     describe('#encrypt', () => {
       it('should be a function', () => {
         assert.typeOf(utils.Security.encrypt, 'function', 'encrypt should be a function');
@@ -229,7 +229,7 @@ describe('utils', () => {
   });
 
   // String functions
-  describe('String', () => {
+  describe('@String', () => {
     describe('#clean', () => {
       it('should be a function', () => {
         assert.typeOf(utils.String.clean, 'function', 'clean should be a function');
@@ -275,7 +275,7 @@ describe('utils', () => {
   });
 
   // Url functions
-  describe('Url', () => {
+  describe('@Url', () => {
     describe('#getParamsFromUrl', () => {
       it('should be a function', () => {
         assert.typeOf(utils.Url.getParamsFromUrl, 'function', 'getParamsFromUrl should be a function');

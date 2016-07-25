@@ -1,8 +1,8 @@
 import './../globalTest';
 import env from '../../src/lib/env';
 
-describe('Environment', () => {
-  it('should be an function returning an object', () => {
+describe('@Env', () => {
+  it('should be a function returning an object', () => {
     assert.typeOf(env, 'Function', 'env should export a function');
     assert.typeOf(env(), 'Object', 'env() should return an object');
   });
