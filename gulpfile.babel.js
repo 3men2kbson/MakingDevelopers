@@ -5,6 +5,17 @@ import nodemon from 'gulp-nodemon';
 import notify from 'gulp-notify';
 import stylus from 'gulp-stylus';
 import mocha from 'gulp-mocha';
+import remoteSrc from 'gulp-remote-src';
+import jsonFormat from 'gulp-json-format';
+
+// Content task
+gulp.task('content', function() {
+  remoteSrc(['en.json', 'es.json'], {
+    base: 'http://local.makingdevelopers.com/content/'
+  })
+  .pipe(jsonFormat(2))
+  .pipe(gulp.dest('./src/content/i18n/'));
+});
 
 // Mocha task
 gulp.task('test', () => {

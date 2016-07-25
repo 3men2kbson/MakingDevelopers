@@ -3,18 +3,40 @@
 <html lang="{{ __.Site.language }}">
     <head>
         {{> site/metas }}
-        <title>Making Developers</title>
+
+        <title>{{ __.site.title }}</title>
 
         {{#css}}
-        <link rel="stylesheet" href="{{ this }}" />
+            <link href="{{ this }}" rel="stylesheet" />
         {{/css}}
+
+        <link rel="shortcut icon" href="images/favicon.png">
     </head>
 
     <body>
-        {{> site/header }}
+        <header class="MainHeader">
+            <h1 class="logo">
+                <a href="{{ __.site.baseUrl }}">
+                    MakingDevelopers
+                </a>
+            </h1>
 
-        <div class="container">
+            <nav class="MainMenu">
+                <ul>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Topics</a></li>
+                    <li><a href="#">Categories</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <div class="PageContent">
             {{{ body }}}
+        </div>
+
+        <div class="Footer">
+            <div class="clear"></div>
+            <p>&copy; MakingDevelopers.com 2016</p>
         </div>
 
         {{> development/livereload }}

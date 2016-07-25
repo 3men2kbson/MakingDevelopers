@@ -83,24 +83,24 @@ describe('@Utils', () => {
 
   // Object functions
   describe('@Object', () => {
-    describe('#buildJson', () => {
+    describe('#buildContentJson', () => {
       it('should be a function', () => {
-        assert.typeOf(utils.Object.buildJson, 'function', 'buildJson should be a function');
+        assert.typeOf(utils.Object.buildContentJson, 'function', 'buildContentJson should be a function');
       });
 
       it('should build a json from vendo content', () => {
         const content = [
           {
-            keyName: 'site.language',
-            keyValue: 'en'
+            name: 'site.language',
+            value: 'en'
           },
           {
-            keyName: 'site.title',
-            keyValue: 'Bar'
+            name: 'site.title',
+            value: 'Bar'
           },
           {
-            keyName: 'site.meta.abstract',
-            keyValue: 'Foo'
+            name: 'site.meta.abstract',
+            value: 'Foo'
           }
         ];
 

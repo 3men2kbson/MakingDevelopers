@@ -1,6 +1,8 @@
+import $config from './config';
 import _ from 'lodash';
 import dateFormat from 'date-format';
 import dot from 'dot-object';
+import fs from 'fs';
 import security from './security';
 
 export default {
@@ -18,8 +20,11 @@ export default {
     isMobile,
     getCurrentDevice
   },
+  Files: {
+    glob
+  },
   Object: {
-    buildJson,
+    buildContentJson,
     pick,
     stringify
   },
@@ -90,12 +95,44 @@ function getCurrentDevice(ua) {
   return (/mobile/i.test(ua)) ? 'mobile' : 'desktop';
 }
 
+// Files functions
+function glob(dir, _files, urls) {
+  let files = fs.readdirSync(dir);
+  let name;
+  let tmp;
+  let url;
+
+  _files = _files || [];
+  urls = urls || [];
+
+  for (const i in files) {
+    if (files[i] !== '.DS_Store' && files[i] !== '.gitkeep') {
+      name = dir + '/' + files[i];
+
+      if (fs.statSync(name).isDirectory()) {
+        glob(name, _files, urls);
+      } else {
+        tmp = name.split('/public/');
+
+        if (isDefined(tmp[1])) {
+          url = `${$config().baseUrl}/${tmp[1]}`;
+
+          _files.push(name);
+          urls.push(url);
+        }
+      }
+    }
+  }
+
+  return urls;
+}
+
 // Object functions
-function buildJson(nodes, raw) {
+function buildContentJson(nodes, raw) {
   let row = {};
 
   _.forEach(nodes, node => {
-    row[node.keyName] = node.keyValue;
+    row[node.name] = node.value;
   });
 
   if (!raw) {

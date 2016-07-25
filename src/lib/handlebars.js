@@ -178,7 +178,7 @@ function submit(options) {
   if (utils.Type.isDefined(options.hash)) {
     options.hash.type = 'submit';
 
-    if (utils.isUndefined(options.hash.class)) {
+    if (utils.Type.isUndefined(options.hash.class)) {
       options.hash.class = 'submit';
     } else {
       options.hash.class += ' submit';

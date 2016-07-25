@@ -37,7 +37,7 @@ export default (req, res, next) => {
       if (isSessionCookie) {
         key = key.replace(sessionPrefix, '');
 
-        if (utils.isJson(value)) {
+        if (utils.Type.isJson(value)) {
           value = JSON.parse(value);
         }
 

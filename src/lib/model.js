@@ -92,7 +92,7 @@ function getProcedure(procedure, values, fields, filter) {
   let method;
   let filters = filter || {};
 
-  if (utils.isUndefined(filters)) {
+  if (utils.Type.isUndefined(filters)) {
     filters = {};
   }
 
@@ -103,15 +103,15 @@ function getProcedure(procedure, values, fields, filter) {
   _.forEach(fields, (field) => {
     value = values[(encrypted) ? utils.md5(field) : field];
 
-    if (utils.isUndefined(value)) {
+    if (utils.Type.isUndefined(value)) {
       value = '';
     }
 
     if (field === 'networkId') {
-      value = '\'' + utils.clean(value.toString()) + '\'';
+      value = '\'' + utils.String.clean(value.toString()) + '\'';
     }
 
-    if (!utils.isNumber(value)) {
+    if (!utils.Type.isNumber(value)) {
       method = filters[field];
 
       if (filter === false) {
