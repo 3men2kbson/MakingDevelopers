@@ -1,4 +1,4 @@
-import './../globalTest';
+import '../globalTest';
 import utils from '../../src/lib/utils';
 
 describe('@Utils', () => {

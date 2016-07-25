@@ -1,4 +1,4 @@
-import './../globalTest';
+import '../globalTest';
 import env from '../../src/lib/env';
 
 describe('@Env', () => {
