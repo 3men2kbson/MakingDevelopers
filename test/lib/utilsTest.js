@@ -114,7 +114,7 @@ describe('@Utils', () => {
           }
         };
 
-        const actualResult = utils.Object.buildJson(content);
+        const actualResult = utils.Object.buildContentJson(content);
 
         assert.deepEqual(
           actualResult,
