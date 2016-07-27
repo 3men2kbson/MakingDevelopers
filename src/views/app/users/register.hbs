@@ -7,7 +7,7 @@
                 <img src="{{ user.avatar }}" alt="{{ user.username }}" />
 
                 <span class="welcome">
-                    {{ __.users.hello }},
+                    {{ __.Users.hello }},
                     <strong>{{#is user.network "twitter"}}@{{/is}}{{ user.username }}</strong>!
                 </span>
             </p>
@@ -24,10 +24,10 @@
                 }}}
             </p>
 
-            {{{ label for = "email" text = __.users.email }}}
+            {{{ label for = "email" text = __.Users.email.label }}}
 
             <p>
-                {{{ email placeholder = __.users.example.email required = true }}}
+                {{{ email placeholder = __.Users.email.placeholder required = true }}}
             </p>
 
             <p>
@@ -36,7 +36,7 @@
                 {{{ label
                     for = "suscribe"
                     class = "checkboxLabel"
-                    text = __.users.subscribe
+                    text = __.Users.subscribe.label
                 }}}
             </p>
 
@@ -45,7 +45,7 @@
                     class = "btn btn-danger submit"
                     type  = "submit"
                     name  = "register"
-                    value = __.menu.register.text
+                    value = __.Users.register.label
                 }}}
             </p>
 
@@ -53,7 +53,7 @@
             {{{ hidden name = "network"   value = user.network   }}}
             {{{ hidden name = "networkId" value = user.networkId }}}
         {{else}}
-            <h2>{{ __.users.newUser }}</h2>
+            <h2>{{ __.Users.newUser }}</h2>
             <p>Nuevo usuario</p>
         {{/if}}
 

@@ -19,16 +19,36 @@ export default (app) => {
   // Content machine
   app.use('/content', contentController);
 
-  // Set i18n content, basePath, and isMobile
+  // Security token
+  app.use((req, res, next) => {
+    if (!res.session('securityToken')) {
+      res.session('securityToken', utils.Security.sha1(new Date()));
+      res.locals.securityToken = res.session('securityToken');
+    }
+
+    return next();
+  });
+
+  // Languages (i18n)
   app.use((req, res, next) => {
     res.__ = res.locals.__ = i18n.load(i18n.getCurrentLanguage(req.url));
-    res.locals.basePath = `${$config().baseUrl}${i18n.getLanguagePath(req.url)}`;
     res.locals.currentLanguage = i18n.getCurrentLanguage(req.url);
-    res.locals.isMobile = utils.Device.isMobile(req.headers['user-agent']);
-    res.locals.isConnected = true;
-    res.locals.securityToken = res.session('securityToken');
 
-    next();
+    return next();
+  });
+
+  // basePath
+  app.use((req, res, next) => {
+    res.locals.basePath = `${$config().baseUrl}${i18n.getLanguagePath(req.url)}`;
+
+    return next();
+  });
+
+  // Device detection
+  app.use((req, res, next) => {
+    res.locals.isMobile = utils.Device.isMobile(req.headers['user-agent']);
+
+    return next();
   });
 
   // Default css & js
@@ -40,7 +60,7 @@ export default (app) => {
     res.locals.topJs = [];
     res.locals.bottomJs = [];
 
-    next();
+    return next();
   });
 
   // Dashboard actions
@@ -62,7 +82,7 @@ export default (app) => {
   app.use((req, res, next) => {
     const err = new Error('Not Found');
     err.status = 404;
-    next(err);
+    return next(err);
   });
 
   // development error handler
