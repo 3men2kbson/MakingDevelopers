@@ -5,7 +5,7 @@ export default (req, res, next) => {
 
   res.content = content;
 
-  next();
+  return next();
 
   function content(contentKey, base) {
     if (base) {

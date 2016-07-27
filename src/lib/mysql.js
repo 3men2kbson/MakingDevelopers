@@ -19,80 +19,74 @@ export default {
   query
 };
 
+function getQuery(obj, find) {
+  const getFields = () => obj.fields || '*';
+  const getTable = () => obj.table;
+  const getGroup = () => obj.group && ` GROUP BY ${obj.group} ` || '';
+  const getOrder = () => obj.order && ` ORDER BY ${obj.order} ` || '';
+  const getLimit = () => obj.limit && ` LIMIT ${obj.limit} ` || '';
+
+  let limit = getLimit();
+  let order = getOrder();
+  let where = '';
+
+  // Find by id
+  if (obj.key && obj.id) {
+    where = ` WHERE ${obj.key} = ${obj.id} `;
+  }
+
+  // Find by field
+  if (obj.field && obj.value) {
+    where = ` WHERE ${obj.field} = '${obj.value}' `;
+  }
+
+  // Find by SQL
+  if (obj.query) {
+    where = ` WHERE ${obj.query} `;
+  }
+
+  // Find first
+  if (find) {
+    limit = ' LIMIT 1 ';
+  }
+
+  if (find === 'last') {
+    order = ` ORDER BY ${obj.key} DESC `;
+  }
+
+  return `SELECT ${getFields()} FROM ${getTable()}${where}${getGroup()}${order}${limit}`;
+}
+
 function find(obj, callback) {
-  if (!obj.id || !obj.table) {
+  if (!obj.id) {
     return false;
   }
 
-  let fields = obj.fields || '*';
-  let sql = `SELECT ${fields} FROM ${obj.table} WHERE ${obj.key} = ${obj.id}`;
-
-  return connection.query(sql, callback);
+  return connection.query(getQuery(obj), callback);
 }
 
 function findAll(obj, callback) {
-  if (!obj.table) {
-    return false;
-  }
-
-  let fields = obj.fields || '*';
-  let group = obj.group ? ` GROUP BY ${obj.group} ` : '';
-  let order = obj.order ? ` ORDER BY ${obj.order} ` : '';
-  let limit = obj.limit ? ` LIMIT ${obj.limit} ` : '';
-  let sql = `SELECT ${fields} FROM ${obj.table}${group}${order}${limit}`;
-
-  return connection.query(sql, callback);
+  return connection.query(getQuery(obj), callback);
 }
 
 function findBy(obj, callback) {
-  if (!obj.table) {
-    return false;
-  }
-
-  let fields = obj.fields || '*';
-  let group = obj.group ? ` GROUP BY ${obj.group} ` : '';
-  let order = obj.order ? ` ORDER BY ${obj.order} ` : '';
-  let limit = obj.limit ? ` LIMIT ${obj.limit} ` : '';
-  let where = ` WHERE ${obj.field} = '${obj.value}' `;
-  let sql = `SELECT ${fields} FROM ${obj.table}${where}${group}${order}${limit}`;
-
-  return connection.query(sql, callback);
+  return connection.query(getQuery(obj), callback);
 }
 
 function findBySQL(obj, callback) {
-  if (!obj.table || !obj.query) {
-    return false;
-  }
-
-  let fields = obj.fields || '*';
-  let group = obj.group ? ` GROUP BY ${obj.group} ` : '';
-  let order = obj.order ? ` ORDER BY ${obj.order} ` : '';
-  let limit = obj.limit ? ` LIMIT ${obj.limit} ` : '';
-  let sql = `SELECT ${fields} FROM ${obj.table} WHERE ${obj.query}${group}${order}${limit}`;
-
-  return connection.query(sql, callback);
+  return connection.query(getQuery(obj), callback);
 }
 
 function findFirst(obj, callback) {
-  if (!obj.table) {
-    return false;
-  }
-
-  let fields = obj.fields || '*';
-  let sql = `SELECT ${fields} FROM ${obj.table} LIMIT 1`;
-
-  return connection.query(sql, callback);
+  return connection.query(getQuery(obj, 'first'), callback);
 }
 
 function findLast(obj, callback) {
-  if (!obj.table || !obj.key) {
+  if (!obj.key) {
     return false;
   }
 
-  let fields = obj.fields || '*';
-  let sql = `SELECT ${fields} FROM ${obj.table} ORDER BY ${obj.key} DESC LIMIT 1`;
-
-  return connection.query(sql, callback);
+  return connection.query(getQuery(obj, 'last'), callback);
 }
 
 function query(sql, callback) {

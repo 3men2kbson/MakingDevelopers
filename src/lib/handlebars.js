@@ -1,5 +1,7 @@
 import $config from './config';
 import { minify } from 'html-minifier';
+import form from './form';
+import utils from './utils';
 
 export default {
   ceil,
@@ -93,7 +95,7 @@ function hidden(options) {
 }
 
 function icon(icon) {
-  return '<i class="fa ' + icon + '"></i>';
+  return `<i class="fa ${icon}"></i>`;
 }
 
 function input(options) {
@@ -118,7 +120,7 @@ function json(content) {
 
 function label(options) {
   if (utils.Type.isDefined(options.hash)) {
-    return form.createLabel(options.hash, (options.hash.text) ? options.hash.text : '');
+    return form.createLabel(options.hash, options.hash.text ? options.hash.text : '');
   }
 
   return false;
@@ -199,7 +201,7 @@ function textarea(options) {
 }
 
 function token(securityToken) {
-  let options = {};
+  const options = {};
 
   if (utils.Type.isDefined(securityToken)) {
     options.type = 'hidden';

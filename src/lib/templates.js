@@ -10,7 +10,7 @@ export default (req, res, next) => {
     set
   };
 
-  next();
+  return next();
 
   function defaultScope(scope) {
     defaultOptions = scope;

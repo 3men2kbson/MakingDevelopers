@@ -2,10 +2,10 @@ import path from 'path';
 import utils from '../../lib/utils';
 import blogModel from './blog.model';
 
-let post = {};
+const formView = 'blog/dashboard/form';
+const resultsView = 'blog/dashboard/results';
 let emptyElements;
-let formView = 'blog/dashboard/form';
-let resultsView = 'blog/dashboard/results';
+let post = {};
 
 export default (req, res, next) => {
   // Setting layout
@@ -22,11 +22,11 @@ export default (req, res, next) => {
     results
   };
 
-  next();
+  return next();
 
   function add() {
     res.profileAllowed(userInfo => {
-      res.content('dashboard.modules.blog', true);
+      res.content('Dashboard.modules.blog', true);
 
       res.renderScope.set('userInfo', userInfo);
 

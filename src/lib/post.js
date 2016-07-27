@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import $config from './config';
 import utils from './utils';
 
 let postData = {};
@@ -15,7 +16,7 @@ export default (req, res, next) => {
   res.validate = validate;
   res.validateSecurityToken = validateSecurityToken;
 
-  next();
+  return next();
 
   function action() {
     return req.params.action === 'add' || req.params.action === 'edit' ? req.params.action : 'view';
@@ -26,15 +27,15 @@ export default (req, res, next) => {
   }
 
   function getAllPost(options) {
-    let values = {};
+    const values = {};
 
     validateSecurityToken();
 
     if (utils.Type.isUndefined(options)) {
       options = {
         exclude: [
-          utils.md5('register'),
-          utils.md5('securityToken')
+          utils.Security.md5('register'),
+          utils.Security.md5('securityToken')
         ]
       };
     }
@@ -67,9 +68,9 @@ export default (req, res, next) => {
   }
 
   function post(input, filter) {
+    const inputs = input;
+    const posts = {};
     let fn;
-    let inputs = input;
-    let posts = {};
     let value;
 
     if (!filter) {
@@ -80,18 +81,18 @@ export default (req, res, next) => {
 
     if (utils.Type.isArray(inputs)) {
       _.forEach(inputs, (input) => {
-        value = postData[utils.md5(input)];
+        value = postData[utils.Security.md5(input)];
         filter = input.split(':');
         fn = input.split('|');
 
         if (fn[1] === 'now') {
           input = input.replace('|now', '');
-          value = utils.now();
+          value = utils.Date.now();
         }
 
         if (filter[1]) {
           input = input.replace(`:${filter[1]}`, '');
-          value = postData[utils.md5(input)];
+          value = postData[utils.Security.md5(input)];
 
           if (filter[1] !== 'html') {
             value = utils[filter[1]](value);
@@ -130,11 +131,11 @@ export default (req, res, next) => {
   }
 
   function validate(inputs, validation) {
-    let element = [];
+    const element = [];
 
     _.forEach(inputs, (input) => {
       if (!validation || validation === 'empty') {
-        if (postData[utils.md5(input)] === '') {
+        if (postData[utils.Security.md5(input)] === '') {
           element.push(input);
           return;
         }

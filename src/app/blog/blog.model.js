@@ -2,7 +2,7 @@ import Model from '../../lib/model';
 
 const Blog = new Model();
 
-let fields = [
+const fields = [
   'title',
   'slug',
   'excerpt',

@@ -74,12 +74,12 @@ router.post('/registration', (req, res, next) => {
     if (utils.Type.isUndefined(state)) {
       res.redirect('/');
     } else {
-      renderOptions.message = res.content('users.register.success');
+      renderOptions.message = res.content('Users.register.success');
       renderOptions.alertType = 'success';
       renderOptions.iconType = 'fa-check';
 
       if (utils.Type.isDefined(state[0][0].error)) {
-        renderOptions.message = res.__.db.errors[state[0][0].error];
+        renderOptions.message = res.__.Db.errors[state[0][0].error];
         renderOptions.alertType = 'danger';
         renderOptions.iconType = 'fa-times';
       }

@@ -34,6 +34,7 @@ export default {
     isFunction,
     isJson,
     isNumber,
+    isObject,
     isString,
     isUndefined
   },
@@ -84,20 +85,20 @@ function year() {
 
 // Device functions
 function isDesktop(ua) {
-  return !(/mobile/i.test(ua));
+  return !/mobile/i.test(ua);
 }
 
 function isMobile(ua) {
-  return (/mobile/i.test(ua));
+  return /mobile/i.test(ua);
 }
 
 function getCurrentDevice(ua) {
-  return (/mobile/i.test(ua)) ? 'mobile' : 'desktop';
+  return /mobile/i.test(ua) ? 'mobile' : 'desktop';
 }
 
 // Files functions
 function glob(dir, _files, urls) {
-  let files = fs.readdirSync(dir);
+  const files = fs.readdirSync(dir);
   let name;
   let tmp;
   let url;
@@ -107,7 +108,7 @@ function glob(dir, _files, urls) {
 
   for (const i in files) {
     if (files[i] !== '.DS_Store' && files[i] !== '.gitkeep') {
-      name = dir + '/' + files[i];
+      name = `${dir}/${files[i]}`;
 
       if (fs.statSync(name).isDirectory()) {
         glob(name, _files, urls);
@@ -129,7 +130,7 @@ function glob(dir, _files, urls) {
 
 // Object functions
 function buildContentJson(nodes, raw) {
-  let row = {};
+  const row = {};
 
   _.forEach(nodes, node => {
     row[node.name] = node.value;
@@ -216,14 +217,6 @@ function removeHTML(str) {
   return false;
 }
 
-// Url functions
-function getParamsFromUrl(params) {
-  params = params.split('/');
-  params.shift();
-
-  return params;
-}
-
 // Type functions
 function isArray(variable) {
   return variable instanceof Array;
@@ -255,10 +248,22 @@ function isNumber(number) {
   return !isNaN(number);
 }
 
+function isObject(variable) {
+  return typeof variable === 'object';
+}
+
 function isString(variable) {
   return typeof variable === 'string';
 }
 
 function isUndefined(variable) {
   return typeof variable === 'undefined' || variable === null;
+}
+
+// Url functions
+function getParamsFromUrl(params) {
+  params = params.split('/');
+  params.shift();
+
+  return params;
 }

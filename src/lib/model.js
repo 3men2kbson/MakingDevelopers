@@ -18,8 +18,8 @@ function executeQuery(sql, callback) {
 }
 
 function get(q, callback) {
-  let fields = Object.keys(q);
-  let count = fields.length - 1;
+  const fields = Object.keys(q);
+  const count = fields.length - 1;
   let query = '';
   let field;
   let value;
@@ -45,7 +45,7 @@ function get(q, callback) {
       fields: schema.fields,
       key: schema.key
     }, callback);
-  } else if (typeof(q) === 'object') {
+  } else if (utils.Type.isObject(q)) {
     if (fields.length > 1) {
       for (i = 0; i <= count; i++) {
         if (i === count) {
@@ -83,14 +83,14 @@ function get(q, callback) {
 }
 
 function getProcedure(procedure, values, fields, filter) {
-  let params = '';
-  let i = 0;
-  let total = fields.length - 1;
-  let value;
-  let keys = _.keys(values);
+  const keys = _.keys(values);
+  const total = fields.length - 1;
   let encrypted = false;
-  let method;
   let filters = filter || {};
+  let i = 0;
+  let method;
+  let params = '';
+  let value;
 
   if (utils.Type.isUndefined(filters)) {
     filters = {};
@@ -101,14 +101,14 @@ function getProcedure(procedure, values, fields, filter) {
   }
 
   _.forEach(fields, (field) => {
-    value = values[(encrypted) ? utils.md5(field) : field];
+    value = values[encrypted ? utils.Security.md5(field) : field];
 
     if (utils.Type.isUndefined(value)) {
       value = '';
     }
 
     if (field === 'networkId') {
-      value = '\'' + utils.String.clean(value.toString()) + '\'';
+      value = `'${utils.String.clean(value.toString())}'`;
     }
 
     if (!utils.Type.isNumber(value)) {

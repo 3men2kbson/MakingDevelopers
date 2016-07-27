@@ -24,7 +24,7 @@ function createInput(attrs) {
 
   _.forIn(attrs, (value, attr) => {
     if (attr === 'name') {
-      value = utils.md5(value);
+      value = utils.Security.md5(value);
     }
 
     if (value !== '') {
@@ -49,7 +49,7 @@ function createTextarea(attrs) {
 
   _.forIn(attrs, (value, attr) => {
     if (attr === 'name') {
-      value = utils.md5(value);
+      value = utils.Security.md5(value);
     }
 
     if (attr === 'value' && value !== '') {
@@ -65,10 +65,10 @@ function createTextarea(attrs) {
 }
 
 function createSelect(attrs) {
-  let options = attrs.options.split('|');
+  const options = attrs.options.split('|');
+  const type = attrs.type;
+  const hasClass = attrs.hasOwnProperty('class');
   let html = '<select ';
-  let type = attrs.type;
-  let hasClass = attrs.hasOwnProperty('class');
   let value;
 
   if (!hasClass && type !== 'hidden' && type !== 'checkbox' && type !== 'radio') {
@@ -77,11 +77,11 @@ function createSelect(attrs) {
 
   _.forIn(attrs, (value, attr) => {
     if (attr === 'name') {
-      value = utils.md5(value);
+      value = utils.Security.md5(value);
     }
 
     if (value !== '') {
-      html += attr + '="' + value + '" ';
+      html += `${attr}="${value}" `;
     }
   });
 
@@ -110,7 +110,7 @@ function createLabel(attrs, text) {
     html += `${attr}="${value}" `;
   });
 
-  html += '>' + text + '</label>';
+  html += `>${text}</label>`;
 
   return html;
 }
